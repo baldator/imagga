@@ -1,4 +1,5 @@
 #requires -version 4
+Function New-ImaggaConnection{
 <#
 .SYNOPSIS
   Create an imagga connection object
@@ -23,7 +24,6 @@
 #>
 
 
-Function new-imaggaconnection{
   [CmdletBinding()]
   Param(
       [parameter(Mandatory=$true)] [String] $apikey,

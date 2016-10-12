@@ -1,18 +1,20 @@
 #requires -version 4
-Function Get-ImageTags{
+Function Get-ImageColors{
 <#
 .SYNOPSIS
-  Get recommended tags from imagga
+  Analyse and extract the predominant colors from one or several images.
 .DESCRIPTION
-  The Get-ImageTags function is part of Imagga module. It retrieves the suggested tags to associate to the image passed as parameter.
+  The Get-ImageColors function is part of Imagga module. It analyses and extract the predominant colors from one or several images..
 .PARAMETER url
   The url of the image to be tagged. It has to be accessible from imagga server, so make sure it's a public url.
 .PARAMETER apikey
   Your imagga API key. If you don't have one follow the doc: https://docs.imagga.com/#introduction
 .PARAMETER secret
   Your imagga API secret.
-.PARAMETER imaggaObj
-  The connection object created using new-imaggaconnection.
+.PARAMETER noOverallColors
+  Exclude the overall image colors from extraction.
+.PARAMETER noObjectColors
+  Force the service not to extract object and non-object (a.k.a. foreground and background) colors separately. 
 .INPUTS
   None
 .OUTPUTS
@@ -24,22 +26,26 @@ Function Get-ImageTags{
   Purpose/Change: Initial script development
   
 .EXAMPLE
-  Get-ImageTags -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -apikey '1111111111' -apisecret '1dsa23dasd234dfg354'
+  Get-ImageColors -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -apikey '1111111111' -apisecret '1dsa23dasd234dfg354'
   
 .EXAMPLE
-  Get-ImageTags -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -imaggaObj $credential
+  Get-ImageColors -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -imaggaObj $credential
 #>
+
+
 
   [CmdletBinding()]
   Param(
       [parameter(Mandatory=$true)] [String] $url,
       [parameter(ParameterSetName="ApiKey",Mandatory=$true)] [String] $apikey,
       [parameter(ParameterSetName="ApiKey",Mandatory=$true)] [String] $secret,
-      [parameter(ParameterSetName="ConnectionObject",Mandatory=$true)] [pscredential] $imaggaObj
+      [parameter(ParameterSetName="ConnectionObject",Mandatory=$true)] [pscredential] $imaggaObj,
+      [switch] $noOverallColors,
+      [switch] $noObjectColors
   )
   
   Begin{
-    Write-debug "Starting execution of Get-ImageTags. Url is: $url"
+    Write-debug "Starting execution of Get-ImageColors. Url is: $url"
   }
   
   Process{
@@ -51,8 +57,18 @@ Function Get-ImageTags{
       $mycreds = $imaggaObj
     }
 
+    $urlOptions = "url=$url"
+
+    if ($noOverallColors){
+        $urlOptions += "&extract_overall_colors=0"
+    }
+    
+    if ($noObjectColors){
+        $urlOptions += "&extract_object_colors=0"
+    }
+
     Try{
-        $json = _InvokeImaggaApi -credential $mycreds -parameters $url -function 'tagging'
+        $json = _InvokeImaggaApi -credential $mycreds -parameters $urlOptions -function 'colors'
     }
     Catch{
       Write-debug $_.Exception 

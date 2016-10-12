@@ -13,9 +13,11 @@ function _VerifyResolutionMatrix{
         $resolution | %{
             if(-not ($_ -match '[0-9]+x[0-9]+')){
                 $valid = $false
-                Write-Debug "$_ is invalid"
+                Write-Host "$_ is invalid"
                 break
             }
+
+            Write-Debug "$_ is valid"
         }
 
         return $valid

@@ -1,4 +1,5 @@
 #requires -version 4
+Function Get-CroppedImage{
 <#
 .SYNOPSIS
   Get cropped images from imagga
@@ -33,14 +34,12 @@
   Get-CroppedImage -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -imaggaObj $credential -resolution @('800x600') -noScaling
 #>
 
-
-Function Get-CroppedImage{
   [CmdletBinding()]   
   Param(
       [parameter(Mandatory=$true)] [String] $url,
       [parameter(ParameterSetName="ApiKey",Mandatory=$true)] [String] $apikey,
       [parameter(ParameterSetName="ApiKey",Mandatory=$true)] [String] $secret,
-      [parameter(ParameterSetName="ConnectionObject",Mandatory=$true)] [String] $imaggaObj,
+      [parameter(ParameterSetName="ConnectionObject",Mandatory=$true)] [pscredential] $imaggaObj,
       [parameter(ParameterSetName="ConnectionObject",Mandatory=$true)][Parameter(ParameterSetName="ApiKey", Mandatory=$True)] [String[]] $resolution,
       [Switch] $noScaling
 
@@ -60,10 +59,11 @@ Function Get-CroppedImage{
     }
 
     if (-not (_VerifyResolutionMatrix -resolution $resolution)){
+        Write-Host "Invalid resolution matrix" 
         Throw "Invalid resolution matrix"
     }
 
-    $urlOptions = ""
+    $urlOptions = "url=$url"
     $resolution | %{
         $urlOptions += "&$_"
     }
@@ -73,26 +73,14 @@ Function Get-CroppedImage{
     }
 
     Try{
-        Invoke-WebRequest "https://api.imagga.com/v1/croppings?url=$url" -Credential $cred
+        $json = _InvokeImaggaApi -credential $mycreds -parameters $urlOptions -function 'croppings'
     }
     Catch{
       Write-output $_.Exception 
       Throw "Problem contacting imagga API"
-      Break
+      $json = $null
     }
     
-    $json = $null
-    Try{
-        $json = ConvertFrom-Json $result
-    }
-    Catch{
-      if ($verbose){
-        Write-output $_.Exception 
-        Write-output "JSON: $result"
-      }
-      Throw "Problem converting imagga JSON."
-      Break
-    }
     return $json 
   }
   
