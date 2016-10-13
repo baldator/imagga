@@ -5,11 +5,10 @@ function _CheckValidImage{
     )
 
     begin{
-        Write-Debug "Starting _CheckValidImage with $resolution"
+        Write-Debug "Starting _CheckValidImage with $url"
     }
 
     process{
-        $valid = $true
         try{
             $image = invoke-webrequest $url -DisableKeepAlive -UseBasicParsing
         }
@@ -18,15 +17,11 @@ function _CheckValidImage{
         }
 
         if ($image.StatusCode -ne 200){
-            Write-debug "Invalid HTTP code"
-            $valid = $false 
+            Throw "Problem retrieving the image: Invalid HTTP code"
         }
 
         if(-not ($image.Headers.'Content-Type'.StartsWith("image"))){
-            Write-debug "Invalid Content type"
-            $valid = $false 
+            Throw "Invalid url: please make sure it has an image Content type"
         }
-
-        return $valid
     }
 }

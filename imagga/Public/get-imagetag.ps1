@@ -44,13 +44,15 @@ Function Get-ImageTags{
   
   Process{
     if ($PsCmdlet.ParameterSetName -eq "ApiKey"){
-      $mycreds = new-imaggaConnection -apiley $apikey -secret $secret
+      $mycreds = new-imaggaConnection -apikey $apikey -secret $secret
     }
 
     if ($PsCmdlet.ParameterSetName -eq "ConnectionObject"){
       $mycreds = $imaggaObj
     }
 
+    _CheckValidImage -url $url
+    
     Try{
         $json = _InvokeImaggaApi -credential $mycreds -parameters $url -function 'tagging'
     }

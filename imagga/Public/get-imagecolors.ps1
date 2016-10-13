@@ -50,13 +50,14 @@ Function Get-ImageColors{
   
   Process{
     if ($PsCmdlet.ParameterSetName -eq "ApiKey"){
-      $mycreds = new-imaggaConnection -apiley $apikey -secret $secret
+      $mycreds = new-imaggaConnection -apikey $apikey -secret $secret
     }
 
     if ($PsCmdlet.ParameterSetName -eq "ConnectionObject"){
       $mycreds = $imaggaObj
     }
 
+    _CheckValidImage -url $url
     $urlOptions = "url=$url"
 
     if ($noOverallColors){

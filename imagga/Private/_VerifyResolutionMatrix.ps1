@@ -9,17 +9,13 @@ function _VerifyResolutionMatrix{
     }
 
     process{
-        $valid = $true
         $resolution | %{
-            if(-not ($_ -match '[0-9]+x[0-9]+')){
-                $valid = $false
-                Write-Host "$_ is invalid"
-                break
+            if(-not ($_ -match '^[1-9][0-9]*x[1-9][0-9]*$')){
+                Write-Debug "$_ is invalid"
+                Throw "Invalid resolution matrix"
             }
 
             Write-Debug "$_ is valid"
         }
-
-        return $valid
     }
 }
