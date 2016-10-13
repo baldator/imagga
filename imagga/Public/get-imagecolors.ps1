@@ -4,7 +4,7 @@ Function Get-ImageColors{
 .SYNOPSIS
   Analyse and extract the predominant colors from one or several images.
 .DESCRIPTION
-  The Get-ImageColors function is part of Imagga module. It analyses and extract the predominant colors from one or several images..
+  The Get-ImageColors function is part of Imagga module. It analyses and extract the predominant colors from one or several images.
 .PARAMETER url
   The url of the image to be tagged. It has to be accessible from imagga server, so make sure it's a public url.
 .PARAMETER apikey

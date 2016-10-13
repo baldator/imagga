@@ -1,4 +1,4 @@
-Import-Module ..\imagga\imagga.psd1 -force
+Import-Module .\imagga\imagga.psd1 -force
 
 $url = 'http://imagga.com/static/images/tagging/wind-farm-538576_640.jpg'
 $invalid_url = 'http://www.google.com'
