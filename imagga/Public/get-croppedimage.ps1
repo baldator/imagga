@@ -62,7 +62,7 @@ Function Get-CroppedImage{
     _VerifyResolutionMatrix -resolution $resolution
 
     $urlOptions = "url=$url"
-    $resolution | %{
+    $resolution | ForEach-Object{
         $urlOptions += "&$_"
     }
 

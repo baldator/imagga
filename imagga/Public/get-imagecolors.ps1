@@ -1,10 +1,10 @@
 #requires -version 4
-Function Get-ImageColors{
+Function Get-ImageColor{
 <#
 .SYNOPSIS
   Analyse and extract the predominant colors from one or several images.
 .DESCRIPTION
-  The Get-ImageColors function is part of Imagga module. It analyses and extract the predominant colors from one or several images.
+  The Get-ImageColor function is part of Imagga module. It analyses and extract the predominant colors from one or several images.
 .PARAMETER url
   The url of the image to be tagged. It has to be accessible from imagga server, so make sure it's a public url.
 .PARAMETER apikey
@@ -26,10 +26,10 @@ Function Get-ImageColors{
   Purpose/Change: Initial script development
   
 .EXAMPLE
-  Get-ImageColors -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -apikey '1111111111' -apisecret '1dsa23dasd234dfg354'
+  Get-ImageColor -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -apikey '1111111111' -apisecret '1dsa23dasd234dfg354'
   
 .EXAMPLE
-  Get-ImageColors -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -imaggaObj $credential
+  Get-ImageColor -url 'http://docs.imagga.com/static/images/docs/sample/japan-605234_1280.jpg' -imaggaObj $credential
 #>
 
 
@@ -45,7 +45,7 @@ Function Get-ImageColors{
   )
   
   Begin{
-    Write-debug "Starting execution of Get-ImageColors. Url is: $url"
+    Write-debug "Starting execution of Get-ImageColor. Url is: $url"
   }
   
   Process{

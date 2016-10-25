@@ -23,5 +23,7 @@ function _CheckValidImage{
         if(-not ($image.Headers.'Content-Type'.StartsWith("image"))){
             Throw "Invalid url: please make sure it has an image Content type"
         }
+
+        Write-debug "image is valid"
     }
 }

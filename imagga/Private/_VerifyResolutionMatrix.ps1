@@ -9,7 +9,7 @@ function _VerifyResolutionMatrix{
     }
 
     process{
-        $resolution | %{
+        $resolution | ForEach-Object{
             if(-not ($_ -match '^[1-9][0-9]*x[1-9][0-9]*$')){
                 Write-Debug "$_ is invalid"
                 Throw "Invalid resolution matrix"

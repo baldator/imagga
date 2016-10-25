@@ -44,60 +44,64 @@ Describe Get-CroppedImage {
         It 'Passing invalid apikey, secret' {
             { Get-CroppedImage -apikey '123123' -secret 'asd213dsdce' -url $url -resolution $resolution} | Should Throw "Problem contacting imagga API"
         }
-        It 'Passing invalid imagga object' {
+        It 'Parameters OK' {
             $user = New-ImaggaConnection -apikey 's2d3dsdfswd' -secret 'asd213dsdce'
             { Get-CroppedImage -imaggaObj $user -url $url -resolution $resolution} | Should Throw "Problem contacting imagga API"
+        }
+        It 'Parameters OK 1' {
+            $user = New-ImaggaConnection -apikey 's2d3dsdfswd' -secret 'asd213dsdce'
+            { Get-CroppedImage -imaggaObj $user -url $url -resolution $resolution_matrix} | Should Throw "Problem contacting imagga API"
         }
 
     }
 }
 
-Describe Get-ImageColors {
+Describe Get-ImageColor {
     Context 'Parameters'{
          It 'Passing apikey, secret and connection object' {
             $user = New-ImaggaConnection -apikey 's2d3dsdfswd' -secret 'asd213dsdce'
-            { Get-ImageTags -imaggaObj $user -apikey '123123' -secret 'asd213dsdce' } | Should Throw
+            { Get-ImageTag -imaggaObj $user -apikey '123123' -secret 'asd213dsdce' } | Should Throw
         }
         It 'Invalid url: not an image'{
-            { Get-ImageTags -apikey '123123' -secret 'asd213dsdce' -url $invalid_url} | Should Throw "Invalid url: please make sure it has an image Content type"
+            { Get-ImageTag -apikey '123123' -secret 'asd213dsdce' -url $invalid_url} | Should Throw "Invalid url: please make sure it has an image Content type"
         }
         It 'Invalid url: 404'{
-            { Get-ImageTags -apikey '123123' -secret 'asd213dsdce' -url $invalid_url_404} | Should Throw "Problem retrieving the image"
+            { Get-ImageTag -apikey '123123' -secret 'asd213dsdce' -url $invalid_url_404} | Should Throw "Problem retrieving the image"
         }
     }
 
     Context 'WebService'{
         It 'Passing invalid apikey, secret' {
-            { Get-ImageColors -apikey '123123' -secret 'asd213dsdce' -url $url} | Should Throw "Problem contacting imagga API"
+            { Get-ImageColor -apikey '123123' -secret 'asd213dsdce' -url $url} | Should Throw "Problem contacting imagga API"
         }
         It 'Passing invalid imagga object' {
             $user = New-ImaggaConnection -apikey 's2d3dsdfswd' -secret 'asd213dsdce'
-            { Get-ImageColors -imaggaObj $user -url $url} | Should Throw "Problem contacting imagga API"
+            { Get-ImageColor -imaggaObj $user -url $url} | Should Throw "Problem contacting imagga API"
         }
     }
 }
 
-Describe Get-ImageTags {
+Describe Get-ImageTag {
     Context 'Parameters'{
          It 'Passing apikey, secret and connection object' {
             $user = New-ImaggaConnection -apikey 's2d3dsdfswd' -secret 'asd213dsdce'
-            { Get-ImageTags -imaggaObj $user -apikey '123123' -secret 'asd213dsdce' } | Should Throw
+            { Get-ImageTag -imaggaObj $user -apikey '123123' -secret 'asd213dsdce' } | Should Throw
         }
         It 'Invalid url: not an image'{
-            { Get-ImageTags -apikey '123123' -secret 'asd213dsdce' -url $invalid_url} | Should Throw "Invalid url: please make sure it has an image Content type"
+            { Get-ImageTag -apikey '123123' -secret 'asd213dsdce' -url $invalid_url} | Should Throw "Invalid url: please make sure it has an image Content type"
         }
         It 'Invalid url: 404'{
-            { Get-ImageTags -apikey '123123' -secret 'asd213dsdce' -url $invalid_url_404} | Should Throw "Problem retrieving the image"
+            { Get-ImageTag -apikey '123123' -secret 'asd213dsdce' -url $invalid_url_404} | Should Throw "Problem retrieving the image"
         }
     }
     
     Context 'WebService'{
         It 'Passing invalid apikey, secret' {
-            { Get-ImageColors -apikey '123123' -secret 'asd213dsdce' -url $url} | Should Throw "Problem contacting imagga API"
+            { Get-ImageColor -apikey '123123' -secret 'asd213dsdce' -url $url} | Should Throw "Problem contacting imagga API"
         }
         It 'Passing invalid imagga object' {
             $user = New-ImaggaConnection -apikey 's2d3dsdfswd' -secret 'asd213dsdce'
-            { Get-ImageColors -imaggaObj $user -url $url} | Should Throw "Problem contacting imagga API"
+            { Get-ImageColor -imaggaObj $user -url $url} | Should Throw "Problem contacting imagga API"
         }
     }
 }

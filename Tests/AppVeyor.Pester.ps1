@@ -24,7 +24,7 @@ if(-not $Finalize) {
     # If finalize is specified, check for failures and 
 
     #Show status...
-    $AllFiles = Get-ChildItem -Path "$($env:temp)\*Results*.xml" | Select -ExpandProperty FullName
+    $AllFiles = Get-ChildItem -Path "$($env:temp)\*Results*.xml" | Select-Object -ExpandProperty FullName
     "`n`tSTATUS: Finalizing results`n"
     "COLLATING FILES:`n$($AllFiles | Out-String)"
 
@@ -43,12 +43,12 @@ if(-not $Finalize) {
     $Results = @( Get-ChildItem -Path "$($env:temp)\PesterResults*.xml" | Import-Clixml )
             
     $FailedCount = $Results |
-        Select -ExpandProperty FailedCount |
+        Select-Object -ExpandProperty FailedCount |
         Measure-Object -Sum |
-        Select -ExpandProperty Sum
+        Select-Object -ExpandProperty Sum
     
     if ($FailedCount -gt 0) {
-        $FailedItems = $Results | Select -ExpandProperty TestResult | Where {$_.Passed -notlike $True}
+        $FailedItems = $Results | Select-Object -ExpandProperty TestResult | Where-Object {$_.Passed -notlike $True}
 
         "FAILED TESTS SUMMARY:`n"
         $FailedItems | ForEach-Object {
@@ -60,7 +60,7 @@ if(-not $Finalize) {
                 Result = $Test.Result
             }
         } |
-            Sort Describe, Context, Name, Result |
+            Sort-Object Describe, Context, Name, Result |
             Format-List
 
         throw "$FailedCount tests failed."
